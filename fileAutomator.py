@@ -10,21 +10,24 @@ from watchdog.events import FileSystemEventHandler
 
 # ! FILL IN BELOW
 # ? folder to track e.g. Windows: "C:\\Users\\UserName\\Downloads"
-source_dir = "/users/sbrowne/Downloads/"
-dest_dir_image = "/users/sbrowne/Pictures/pyImages/"
-dest_dir_gifs = "/Users/sbrowne/Pictures/pyGifs/"
-dest_dir_screenshots = "/Users/sbrowne/Pictures/pyScreenShots/"
-dest_dir_video = "/Users/sbrowne/Movies/pyVideos/"
-dest_dir_documents = "/Users/sbrowne/Documents/pyDocuments/"
+source_dir = ""
+dest_dir_sfx = ""
+dest_dir_music = ""
+dest_dir_video = ""
+dest_dir_image = ""
+dest_dir_documents = ""
 
 # ? supported image types
-image_extensions = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw", ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
+image_extensions = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw",
+                    ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
 # ? supported Video types
-video_extensions = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"]
+video_extensions = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg",
+                    ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"]
 # ? supported Audio types
 audio_extensions = [".m4a", ".flac", "mp3", ".wav", ".wma", ".aac"]
 # ? supported Document types
-document_extensions = [".doc", ".docx", ".odt", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
+document_extensions = [".doc", ".docx", ".odt",
+                       ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
 
 
 def make_unique(dest, name):
@@ -78,15 +81,9 @@ class MoverHandler(FileSystemEventHandler):
     def check_image_files(self, entry, name):  # * Checks all Image Files
         for image_extension in image_extensions:
             if name.endswith(image_extension) or name.endswith(image_extension.upper()):
-                if "Screen Shot" in name:
-                    dest = dest_dir_screenshots
-                elif name.endswith(".gif") or name.endswith(".GIF"):
-                    dest = dest_dir_gifs
-                else:
-                    dest = dest_dir_image
-                move_file(dest, entry, name)
+                move_file(dest_dir_image, entry, name)
                 logging.info(f"Moved image file: {name}")
-                
+
     def check_document_files(self, entry, name):  # * Checks all Document Files
         for documents_extension in document_extensions:
             if name.endswith(documents_extension) or name.endswith(documents_extension.upper()):
@@ -110,4 +107,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
-    
